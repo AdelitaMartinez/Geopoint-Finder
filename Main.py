@@ -13,7 +13,7 @@ class GeoPointApp:
         self.root = root
         self.root.title("GeoPoint Finder")
 
-          # Labels
+        # Labels
         tk.Label(self.root, text="Enter Coordinates (Lat, Lon):").grid(row=0, column=0, padx=10, pady=5)
         tk.Label(self.root, text="Enter File Name:").grid(row=1, column=0, padx=10, pady=5)
         tk.Label(self.root, text="Closest Location:").grid(row=2, column=0, padx=10, pady=5)
@@ -52,7 +52,7 @@ class GeoPointApp:
 
             # Display closest location in text box
             if closest_point:
-                self.closest_location_text.delete(1.0, tk.END)
+                self.closest_location_text.delete('1.0', tk.END)
                 self.closest_location_text.insert(tk.END, f"You are closest to {closest_point.Description} which is located at {closest_point.Point}")
             else:
                 messagebox.showinfo("No Points Found", "No points found in the file.")
@@ -75,11 +75,11 @@ class GeoPointApp:
         return point_list
 
     def find_closest_point(self, user_point, point_list):
-        #Find the closest GeoPoint to the user's input location.
+        # Find the closest GeoPoint to the user's input location.
         closest_point = None
         min_distance = float('inf')
         for point in point_list:
-            distance = user_point.distance_to(point.Point)
+            distance = user_point.Distance(point.GetPoint())  # Use Distance method instead of distance_to
             if distance < min_distance:
                 min_distance = distance
                 closest_point = point
