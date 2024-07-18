@@ -31,3 +31,36 @@ class GeoPointApp:
         # Button
         self.find_button = tk.Button(self.root, text="Find Closest Location", command=self.find_closest_location)
         self.find_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+
+    def find_closest_location(self):
+        try:
+            # Get user input
+            user_input = self.coordinates_entry.get().strip()
+            filename = self.filename_entry.get().strip()
+
+            # Parse coordinates input
+            lat, lon = map(float, user_input.split(','))
+
+            # Read points from file
+            points = self.read_points_from_file(filename)
+
+            # Create user GeoPoint
+            user_point = GeoPoint(lat, lon, "User Location")
+
+            # Find closest point
+            closest_point = self.find_closest_point(user_point, points)
+
+            # Display closest location in text box
+            if closest_point:
+                self.closest_location_text.delete(1.0, tk.END)
+                self.closest_location_text.insert(tk.END, f"You are closest to {closest_point.Description} which is located at {closest_point.Point}")
+            else:
+                messagebox.showinfo("No Points Found", "No points found in the file.")
+
+        except ValueError:
+            messagebox.showerror("Error", "Invalid coordinates input. Please enter valid coordinates.")
+        except FileNotFoundError:
+            messagebox.showerror("File Not Found", f"File '{filename}' not found.")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
+
