@@ -36,6 +36,7 @@ GeoPoint Finder is a Python application that utilizes a graphical user interface
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
 
 ---
