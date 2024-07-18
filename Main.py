@@ -13,33 +13,34 @@ class GeoPointApp:
         self.root = root
         self.root.title("GeoPoint Finder")
 
-        # Labels
-        tk.Label(self.root, text="Enter Coordinates (Lat, Lon):").grid(row=0, column=0, padx=10, pady=5)
-        tk.Label(self.root, text="Enter File Name:").grid(row=1, column=0, padx=10, pady=5)
-        tk.Label(self.root, text="Closest Location:").grid(row=2, column=0, padx=10, pady=5)
+        # Labels and Entry boxes for latitude, longitude, and file name
+        tk.Label(self.root, text="Enter Latitude:").grid(row=0, column=0, padx=10, pady=5)
+        self.lat_entry = tk.Entry(self.root)
+        self.lat_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        # Entry boxes
-        self.coordinates_entry = tk.Entry(self.root)
-        self.coordinates_entry.grid(row=0, column=1, padx=10, pady=5)
+        tk.Label(self.root, text="Enter Longitude:").grid(row=1, column=0, padx=10, pady=5)
+        self.lon_entry = tk.Entry(self.root)
+        self.lon_entry.grid(row=1, column=1, padx=10, pady=5)
+
+        tk.Label(self.root, text="Enter File Name:").grid(row=2, column=0, padx=10, pady=5)
         self.filename_entry = tk.Entry(self.root)
-        self.filename_entry.grid(row=1, column=1, padx=10, pady=5)
+        self.filename_entry.grid(row=2, column=1, padx=10, pady=5)
+        self.filename_entry.insert(0, "points.txt")  # Set default text as 'points.txt'
 
-        # Text box for displaying closest location
+        tk.Label(self.root, text="Closest Location:").grid(row=3, column=0, padx=10, pady=5)
         self.closest_location_text = tk.Text(self.root, height=5, width=50)
-        self.closest_location_text.grid(row=2, column=1, padx=10, pady=5)
+        self.closest_location_text.grid(row=3, column=1, padx=10, pady=5)
 
         # Button
         self.find_button = tk.Button(self.root, text="Find Closest Location", command=self.find_closest_location)
-        self.find_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        self.find_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
     def find_closest_location(self):
         try:
             # Get user input
-            user_input = self.coordinates_entry.get().strip()
+            lat = float(self.lat_entry.get().strip())
+            lon = float(self.lon_entry.get().strip())
             filename = self.filename_entry.get().strip()
-
-            # Parse coordinates input
-            lat, lon = map(float, user_input.split(','))
 
             # Read points from file
             points = self.read_points_from_file(filename)
@@ -79,7 +80,7 @@ class GeoPointApp:
         closest_point = None
         min_distance = float('inf')
         for point in point_list:
-            distance = user_point.Distance(point.GetPoint())  # Use Distance method instead of distance_to
+            distance = user_point.Distance(point.GetPoint())
             if distance < min_distance:
                 min_distance = distance
                 closest_point = point
