@@ -64,3 +64,28 @@ class GeoPointApp:
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
+    def read_points_from_file(self, filename):
+        # Read points from specified file and return a list of GeoPoint Objects
+        point_list = []
+        with open(filename, 'r') as file:
+            for line in file:
+                lat, lon, description = line.strip().split(',')
+                point = GeoPoint(float(lat), float(lon), description)
+                point_list.append(point)
+        return point_list
+
+    def find_closest_point(self, user_point, point_list):
+        #Find the closest GeoPoint to the user's input location.
+        closest_point = None
+        min_distance = float('inf')
+        for point in point_list:
+            distance = user_point.distance_to(point.Point)
+            if distance < min_distance:
+                min_distance = distance
+                closest_point = point
+        return closest_point
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = GeoPointApp(root)
+    root.mainloop()
